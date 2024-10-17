@@ -1,7 +1,7 @@
 USE HubDados
 ;
 
-SELECT TOP (10) * FROM RAE.Atendimento --IdAtendimento, IdLocalAtendimento, Centro Custo, Tipo Atendimento, Canal
+SELECT TOP (10) * FROM RAE.Atendimento --IdAtendimento, Centro Custo, Tipo Atendimento, Canal
 
 SELECT TOP (10) * FROM RAE.Atendimento_AtividadeSala --IdAtendimento
 
@@ -22,7 +22,7 @@ SELECT TOP (10) * FROM RAE.Funcionario --IdFuncionario, IdPessoa
 USE HubDados
 ;
 
-SELECT TOP (100) A.IdAtendimento, A.Canal, A.CentroCusto, C.IdFuncionario, E.IdPessoa, E.IdFuncionario FROM RAE.Atendimento A
+SELECT A.IdAtendimento, A.Canal, A.CentroCusto, A.SituacaoAtendimento, A.DataFechamento, A.TipoAtendimento, C.IdFuncionario, E.IdPessoa, E.IdFuncionario, A.Ano FROM RAE.Atendimento A
 LEFT JOIN RAE.Atendimento_AtividadeSala B
 ON B.IdAtendimento = A.IdCanal
 LEFT JOIN RAE.Atendimento_Ministrante C
@@ -33,6 +33,14 @@ LEFT JOIN RAE.Funcionario E
 ON C.IdFuncionario = E.IdFuncionario
 LEFT JOIN RAE.Fornecedor F
 ON F.IdPessoa = E.IdPessoa
+/*LEFT JOIN RAE.Atendimento_Produto G
+ON G.IdAtendimento = A.IdAtendimento*/
+WHERE A.Ano = '2024' AND a.SituacaoAtendimento = 'Concluído' AND A.TipoAtendimento IN ('Individual', 'Consultoria Individual', 'Coletivo', 'Coletivo executado em Kit', 'Agendamento executado em Kit')
+ORDER BY A.IdAtendimento DESC
 
-SELECT CENTROCUSTO, COUNT(CENTROCUSTO) AS CONTAGEM FROM RAE.Acao
-GROUP BY CentroCusto
+
+
+/*SELECT SituacaoAtendimento, COUNT(SituacaoAtendimento) AS CONTAGEM FROM RAE.Atendimento
+WHERE ANO = '2024' AND SituacaoAtendimento = 'Concluído'
+GROUP BY SituacaoAtendimento
+order by CONTAGEM asc*/
