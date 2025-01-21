@@ -43,4 +43,3 @@ FROM TABELA_DINAMICA
  
  
 select * from _fOrcamentoAgregado
-
