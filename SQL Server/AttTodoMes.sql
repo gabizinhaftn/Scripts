@@ -4,9 +4,6 @@ USE FINANCA
 UPDATE Posicao
 SET [Posição] = 'Novo processo - pregão 19/08'
 WHERE [Cod.Contrato] = 'SPA1.000006.23'
-
-
-
 UPDATE Posicao SET [Posição] = 'Aguardando Nacional'WHERE [Cod.Contrato] ='SPA2.000925.21'
 UPDATE Posicao SET [Posição] = 'Novo processo - pregão 19/08'WHERE [Cod.Contrato] ='SPA1.000006.23'
 UPDATE Posicao SET [Posição] = 'Novo processo - pregão 19/08'WHERE [Cod.Contrato] ='SPA4.000006.23'
@@ -70,4 +67,3 @@ UPDATE Posicao SET [Posição] = 'Novo processo - pregão 19/08'WHERE [Cod.Contr
 UPDATE Posicao SET [Posição] = 'Novo processo - pregão 19/08'WHERE [Cod.Contrato] ='SPA6.000006.23'
 UPDATE Posicao SET [Posição] = 'será encerrado antecipadamente'WHERE [Cod.Contrato] ='SPA0.001663.23'
 UPDATE Posicao SET [Posição] = 'será encerrado antecipadamente'WHERE [Cod.Contrato] ='SPA1.001663.23'
-

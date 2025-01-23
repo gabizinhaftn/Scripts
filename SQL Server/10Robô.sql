@@ -15,22 +15,18 @@ CREATE TABLE [FINANCA].dbo.Monitoramento_backup (
 ,Gerente VARCHAR(max)
 ,Gestor VARCHAR(max)
 ,[Gestor UAPO] VARCHAR(max)
-,[R$ Total Contrato] float
-,[Data Inicio] date
-,[Data Fim] date
-,[Data Contrato] date
-,[Dias Vencimento] nvarchar(max)
-,[R$ Pago] float
-,[R$ Comprometido] float
-,[R$ Realizado] float
-,[Saldo do Contrato] float
-,[Posição] nvarchar(max)
-,[Categoria Vencimento] nvarchar(max)
-,[Monitoramento] bit
- 
- 
- 
- 
+,[R$ Total Contrato] FLOAT
+,[Data Inicio] DATE
+,[Data Fim] DATE
+,[Data Contrato] DATE
+,[Dias Vencimento] NVARCHAR(max)
+,[R$ Pago] FLOAT
+,[R$ Comprometido] FLOAT
+,[R$ Realizado] FLOAT
+,[Saldo do Contrato] FLOAT
+,[Posição] NVARCHAR(max)
+,[Categoria Vencimento] NVARCHAR(max)
+,[Monitoramento] BIT 
 );  
  
 INSERT INTO [FINANCA].dbo.Monitoramento_backup
@@ -52,28 +48,21 @@ CREATE TABLE [FINANCA].dbo.Monitoramento  (
 [Gerente] VARCHAR(max),
 [Gestor] VARCHAR(max),
 [Gestor UAPO] VARCHAR(max),
-[R$ Total Contrato] float,
-[Data Inicio] date,
-[Data Fim] date,
-[Data Contrato] date,
-[Dias Vencimento] nvarchar(max),
-[R$ Pago] float,
-[R$ Comprometido] float,
-[R$ Realizado] float,
-[Saldo do Contrato] float,
-[Posição] nvarchar(max),
-[Categoria Vencimento] nvarchar(max),
-[Monitoramento] bit
- 
- 
- 
- 
+[R$ Total Contrato] FLOAT,
+[Data Inicio] DATE,
+[Data Fim] DATE,
+[Data Contrato] DATE,
+[Dias Vencimento] NVARCHAR(max),
+[R$ Pago] FLOAT,
+[R$ Comprometido] FLOAT,
+[R$ Realizado] FLOAT,
+[Saldo do Contrato] FLOAT,
+[Posição] NVARCHAR(max),
+[Categoria Vencimento] NVARCHAR(max),
+[Monitoramento] BIT
 );  
  
-Insert into [FINANCA].dbo.Monitoramento
- 
- 
- 
+INSERT INTO [FINANCA].dbo.Monitoramento 
   Select
  a.[Cod.Contrato],
  a.Processo,
@@ -86,18 +75,18 @@ Diretoria,
  Gerente,
  Gestor,
 [Gestor UAPO],
-[R$ Total Contrato] as 'R$ Total Contrato',
-[Data Inicio] as 'Data Inicio',
-[Data Fim] as 'Data Fim',
-[Data Contrato] as 'Data Contrato',
-DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
- sum(ZUTICONTRATOSANALITICO.VALORPAGO) as 'R$ Pago',
- sum(ZUTICONTRATOSANALITICO.VALORCOMPROMETIDO) as 'R$ Comprometido',
- sum(ZUTICONTRATOSANALITICO.VALORREALIZADO) as 'R$ Realizado',
+[R$ Total Contrato] AS 'R$ Total Contrato',
+[Data Inicio] AS 'Data Inicio',
+[Data Fim] AS 'Data Fim',
+[Data Contrato] AS 'Data Contrato',
+DATEDIFF(DAY, @datahoje, [Data Fim]) AS 'Dias Vencimento',
+ sum(ZUTICONTRATOSANALITICO.VALORPAGO) AS 'R$ Pago',
+ sum(ZUTICONTRATOSANALITICO.VALORCOMPROMETIDO) AS 'R$ Comprometido',
+ sum(ZUTICONTRATOSANALITICO.VALORREALIZADO) AS 'R$ Realizado',
  
   [R$ Total Contrato] - SUM(ISNULL(ZUTICONTRATOSANALITICO.VALORPAGO,0) + ISNULL(ZUTICONTRATOSANALITICO.VALORREALIZADO,0) + ISNULL(ZUTICONTRATOSANALITICO.VALORCOMPROMETIDO,0)) as 'Saldo do Contrato',
  
-  apenasPosicao.Posição as 'Posição',
+  apenasPosicao.Posição AS 'Posição',
   CASE WHEN DATEDIFF(DAY, @datahoje, [Data Fim]) <= 0 THEN 'Vencido'
     WHEN DATEDIFF(DAY, @datahoje, [Data Fim]) > 0 AND DATEDIFF(DAY, @datahoje, [Data Fim]) <= 30 THEN 'Até 30 dias para o vencimento'
     WHEN DATEDIFF(DAY, @datahoje, [Data Fim]) >= 31 AND DATEDIFF(DAY, @datahoje, [Data Fim]) <= 60 THEN 'De 31 até 60 dias para o vencimento'
@@ -106,7 +95,7 @@ DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
  
   ELSE 'Acima de 121 dias' END AS 'Categoria Vencimento',
  
-  CASE WHEN [modalidade] in ('LICITAÇÃO PREGÃO ELETRÔNICO',
+  CASE WHEN [modalidade] IN ('LICITAÇÃO PREGÃO ELETRÔNICO',
 'INEXIGIBILIDADE - EXCLUSIVIDADE',
 'INEXIGIBILIDADE - CAPUT',
 'DISPENSA POR VALOR - OBRAS E ENGENHARIA',
@@ -128,32 +117,28 @@ DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
 'TERMO DE COMPROMISSO',
 'EDITAL DE CREDENCIAMENTO', -- alteracao 0210
 'LICITAÇÃO ATA REGISTRO DE PREÇOS',
-'TERMO DE COOPERAÇÃO TÉCNICA'
- 
- 
+'TERMO DE COOPERAÇÃO TÉCNICA' 
 )
- THEN 1 ELSE 0 END as 'Monitoramento'
- 
-   from (SELECT distinct
- TCNT.CODIGOCONTRATO as 'Cod.Contrato',
- PAINEL.PROCESSO as 'Processo',
- PAINEL.OBJETO as 'Objeto',
- PAINEL.CNPJ as 'CNPJ',
- TRIM(PAINEL.FORNECEDOR) as 'Fornecedor',
- PAINEL.DEPARTAMENTO as 'Departamento',
- PAINEL.MODALIDADE as 'Modalidade',
- TVEN.NOME as 'Gerente',
- TVEN2.NOME as 'Gestor',
-  TCNTCOMPL.GESTOR_SUP as 'Gestor UAPO',
-    TCNT.VALORCONTRATO as 'R$ Total Contrato',
- tcnt.DATAINICIO as 'Data Inicio',
- tcnt.DATAFIM as 'Data Fim',
-  tcnt.DATACONTRATO as 'Data Contrato',
- TCNT.CODSTACNT as 'Status',
- TSTACNT.DESCRICAO,
- 
+ THEN 1 ELSE 0 END AS 'Monitoramento'
+   FROM (SELECT DISTINCT
+ TCNT.CODIGOCONTRATO AS 'Cod.Contrato',
+ PAINEL.PROCESSO AS 'Processo',
+ PAINEL.OBJETO AS 'Objeto',
+ PAINEL.CNPJ AS 'CNPJ',
+ TRIM(PAINEL.FORNECEDOR) AS 'Fornecedor',
+ PAINEL.DEPARTAMENTO AS 'Departamento',
+ PAINEL.MODALIDADE AS 'Modalidade',
+ TVEN.NOME AS 'Gerente',
+ TVEN2.NOME AS 'Gestor',
+  TCNTCOMPL.GESTOR_SUP AS 'Gestor UAPO',
+    TCNT.VALORCONTRATO AS 'R$ Total Contrato',
+ tcnt.DATAINICIO AS 'Data Inicio',
+ tcnt.DATAFIM AS 'Data Fim',
+  tcnt.DATACONTRATO AS 'Data Contrato',
+ TCNT.CODSTACNT AS 'Status',
+ TSTACNT.DESCRICAO, 
   CASE
-    WHEN DEPARTAMENTO in ('UNIDADE SUPRIMENTOS',
+    WHEN DEPARTAMENTO IN ('UNIDADE SUPRIMENTOS',
                 'UNIDADE ADMINISTRAÇÃO, PROJETOS E OBRAS',
                 'UNIDADE FINANÇAS E CONTROLADORIA',
                 'UNIDADE GESTÃO DE PESSOAS',
@@ -163,7 +148,7 @@ DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
                 'UNIDADE DE PROJETOS OBRAS',
                 'SEDE')
     THEN 'DAF'
-    WHEN DEPARTAMENTO in ('UNIDADE POLITICAS PUBLICAS E RELACOES INSTITUCIONAIS',
+    WHEN DEPARTAMENTO IN ('UNIDADE POLITICAS PUBLICAS E RELACOES INSTITUCIONAIS',
                 'UNIDADE MARKETING E COMUNICAÇÃO',
                 'UNIDADE JURÍDICA E SECRETARIA GERAL',
                 'UNIDADE GESTÃO ESTRATÉGICA',
@@ -174,7 +159,7 @@ DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
                 'CENTRO DE REFERÊNCIA EM INOVAÇÃO TECNOLÓGICA',
                 'AUDITORIA')
     THEN 'SUPER'
-    WHEN DEPARTAMENTO in ('UNIDADE GESTAO DE SOLUCOES E TRANSFORMACAO DIGITAL',
+    WHEN DEPARTAMENTO IN ('UNIDADE GESTAO DE SOLUCOES E TRANSFORMACAO DIGITAL',
                 'UNIDADE DESENVOLVIMENTO SETORIAL E TERRITORIAL',
                 'UNIDADE ATENDIMENTO AO CLIENTE',
                 'UNIDADE RELACIONAMENTO COM CLIENTE',
@@ -217,35 +202,28 @@ DATEDIFF(DAY, @datahoje, [Data Fim]) as 'Dias Vencimento',
                 'ACESSO A MERCADO E SERVIÇOS FINANCEIROS',
                 'UAMSF')
     THEN 'DITEC'
-        ELSE '' END as 'Diretoria'
+        ELSE '' END AS 'Diretoria'
  
- 
-FROM [HubDados].[CorporeRM].[TCNT] TCNT
- 
+FROM [HubDados].[CorporeRM].[TCNT] TCNT 
   INNER JOIN [HubDados].[CorporeRM].[TSTACNT] TSTACNT
 ON TCNT.CODSTACNT COLLATE LATIN1_GENERAL_CS_AI = TSTACNT.CODSTACNT
   INNER JOIN [HubDados].[PainelContrato].[Detalhe] PAINEL
- on TCNT.CODIGOCONTRATO COLLATE LATIN1_GENERAL_CS_AI = Painel.NRO_CONTRATO
+ ON TCNT.CODIGOCONTRATO COLLATE LATIN1_GENERAL_CS_AI = Painel.NRO_CONTRATO
   INNER JOIN [HubDados].[CorporeRM].[TVEN] TVEN
- on TVEN.CODVEN COLLATE LATIN1_GENERAL_CS_AI = TCNT.CODVEN  
+ ON TVEN.CODVEN COLLATE LATIN1_GENERAL_CS_AI = TCNT.CODVEN  
   INNER JOIN [HubDados].[CorporeRM].[TVEN] TVEN2
- on TVEN2.CODVEN COLLATE LATIN1_GENERAL_CS_AI = TCNT.CODVEN2
+ ON TVEN2.CODVEN COLLATE LATIN1_GENERAL_CS_AI = TCNT.CODVEN2
   INNER JOIN [HubDados].[CorporeRM].[TCNTCOMPL] TCNTCOMPL
-  ON TCNTCOMPL.IDCNT = TCNT.IDCNT
- 
- 
-) a
- 
- 
-  inner JOIN [HubDados].[CorporeRM].[ZUTICONTRATOSANALITICO] ZUTICONTRATOSANALITICO --- trocar pelo INNER
- on a.[Cod.Contrato] COLLATE LATIN1_GENERAL_CS_AI = ZUTICONTRATOSANALITICO.CODIGOCONTRATO
- 
+  ON TCNTCOMPL.IDCNT = TCNT.IDCNT 
+) a 
+  INNER JOIN [HubDados].[CorporeRM].[ZUTICONTRATOSANALITICO] ZUTICONTRATOSANALITICO --- trocar pelo INNER
+ ON a.[Cod.Contrato] COLLATE LATIN1_GENERAL_CS_AI = ZUTICONTRATOSANALITICO.CODIGOCONTRATO
   LEFT JOIN [FINANCA].[dbo].[Posicao] apenasPosicao
- on apenasPosicao.[Cod.Contrato] COLLATE LATIN1_GENERAL_CS_AI = a.[Cod.Contrato]
+ ON apenasPosicao.[Cod.Contrato] COLLATE LATIN1_GENERAL_CS_AI = a.[Cod.Contrato]
  
  
-  Where a.[Status] like '00001' and
- a.Modalidade in
+  WHERE a.[Status] LIKE '00001' AND
+ a.Modalidade IN
  ('ACORDO DE COEXISTÊNCIA DE MARCAS',
  'ADESÃO À ATA DE REGISTRO DE PREÇOS (LICITAÇÃO)',
  'CESSÃO DE USO',
@@ -279,13 +257,10 @@ ON TCNT.CODSTACNT COLLATE LATIN1_GENERAL_CS_AI = TSTACNT.CODSTACNT
  'TERMO DE COMPROMISSO',
  'TERMO DE COOPERAÇÃO TÉCNICA',
   'DISPENSA - NAO INTERESSADOS NA LICITAÇÃO',
-  'DISPENSA - URGENCIA / IMPREVISTO / SEM TE')
- 
-  And DATEDIFF(DAY, @datahoje, [Data Fim]) >= 0
- 
-  AND A.Fornecedor NOT LIKE 'EDUCALIBRAS TREINAMENTO E DESENVOLVIMENTO DO IDIOMA DE LIBRAS LTDA - EPP'
- 
-group by
+  'DISPENSA - URGENCIA / IMPREVISTO / SEM TE') 
+  AND DATEDIFF(DAY, @datahoje, [Data Fim]) >= 0 
+  AND A.Fornecedor NOT LIKE 'EDUCALIBRAS TREINAMENTO E DESENVOLVIMENTO DO IDIOMA DE LIBRAS LTDA - EPP' 
+GROUP BY
 a.[Cod.Contrato],
 a.Processo,
 a.Objeto,
@@ -303,6 +278,5 @@ a.[data Contrato],
 a.[Status],
 DESCRICAO,
 Posição,
-Diretoria
- 
-order by a.[Cod.Contrato] asc
+Diretoria 
+ORDER BY a.[Cod.Contrato] ASC

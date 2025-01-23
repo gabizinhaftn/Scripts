@@ -4,7 +4,6 @@ DECLARE @DATAATUALIZACAO DATETIME
 SET @DATAATUALIZACAO = GETDATE()
 ;
  
- 
 WITH TOTAL AS (
 SELECT * FROM DBO.FatoFechamento
 )
@@ -42,4 +41,4 @@ SELECT CONTA_FECHAMENTO, Case When TIPO Like 'Receita' THEN CAST(1 AS bit) ELSE 
 FROM TABELA_DINAMICA
  
  
-select * from _fOrcamentoAgregado
+SELECT * FROM _fOrcamentoAgregado

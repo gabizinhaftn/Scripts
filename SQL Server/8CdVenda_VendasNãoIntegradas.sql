@@ -1,5 +1,5 @@
-declare @lista table (Id int)
-insert into @lista values
+DECLARE @lista TABLE (Id INT)
+INSERT INTO @lista VALUES
 ('3617375'),
 ('3617801'),
 ('3617723'),
@@ -12,18 +12,17 @@ insert into @lista values
 ('3616270'),
 ('3610709'),
 ('3606832')
-
 ;
-with agendamento as (
+WITH agendamento AS (
 SELECT * FROM  [HubDados].[RAE].[Pagamento_SolicitacaoVenda_Agendamento]
-WHERE CdVenda in (select id from @lista)
+WHERE CdVenda IN (SELECT id FROM @lista)
 )
-,inscricao as (
+,inscricao AS (
 SELECT * FROM  [HubDados].[RAE].[Pagamento_SolicitacaoVenda_Inscricao]
-WHERE CdVenda in (select id from @lista)
+WHERE CdVenda IN (SELECT id FROM @lista)
 )
-,total as ( SELECT * FROM AGENDAMENTO UNION SELECT * FROM inscricao)
-SELECT ROW_NUMBER() over(PARTITION BY a.cdvenda order by a.cdvenda) as contagem
+,total AS ( SELECT * FROM AGENDAMENTO UNION SELECT * FROM inscricao)
+SELECT ROW_NUMBER() OVER(PARTITION BY a.cdvenda order by a.cdvenda) AS contagem
 ,a.CdVenda,b.Descricao_Plano,B.Descricao_Acao,B.CentroCusto,B.Produto,b.idAtendimentoColetivo
 ,A.ValorBruto,a.ValorDesconto,a.ValorLiquido,a.DataCriacao,a.DataAtualizacao FROM total A
 LEFT JOIN [UAC].[dbo].[Atendimentos2024_RAE_Completa] B
