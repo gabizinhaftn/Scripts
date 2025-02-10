@@ -6,11 +6,19 @@ from time import gmtime, strftime
 
 
 def gerar_corpo_email(dados):
-    primeira_linha_fornecedor_valor = dados[0]['detalhes'][0].get("VALOR_PROVISIONADO", 0)
-    primeira_linha_fornecedor = dados[0]['detalhes'][0].get("RAZÃO SOCIAL", 0)
-    primeira_linha_fornecedor_valor = dados[0]['detalhes'][1].get("VALOR_PROVISIONADO", 0)
-    primeira_linha_fornecedor = dados[0]['detalhes'][1].get("RAZÃO SOCIAL", 0)
+    primeira_linha_provisao1 = dados[0]['detalhe'][0].get("MES", "Desconhecido")
+    primeira_linha_provisao2 = dados[0]['detalhe'][0].get("ANO", "Desconhecido")
+    primeira_linha_fornecedores = dados[1]['detalhe'][0].get("RAZÃO SOCIAL", "Desconhecido")
+    segunda_linha_fornecedores = dados[1]['detalhe'][1].get("RAZÃO SOCIAL", "Desconhecido")
+    primeira_linha_pagamento = dados[2]['detalhe'][0].get("MÊS", "Desconhecido") 
 
+    valor_total_provisao = dados[0]['detalhe'][0].get("VALOR DOCUMENTO", 0)
+    valor_total_fornecedores1 = dados[1]['detalhe'][0].get("VALOR PROVISIONADO", 0)
+    valor_total_pagamento1 = dados[2]['detalhe'][0].get("VALOR PAGO", 0)
+
+    valor_total_provisao_formatado = f"R$ {valor_total_provisao:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    valor_total_fornecedores_formatado = f"R$ {valor_total_fornecedores1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    valor_total_pagamento_formatado = f"R$ {valor_total_pagamento1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
     # Gerar a data atual formatada
     from time import gmtime, strftime
     data_atual = strftime('%d/%m/%Y', gmtime())
@@ -82,9 +90,9 @@ def gerar_corpo_email(dados):
             <h2>CONTROLE PROVISÃO DE SERVIÇOS</h2>
             <p>Prezados,</p>
             <p>Segue um resumo do relatório Controle Provisão de Serviços até a data <strong>{data_atual}</strong>.</p>
-            <p>Provisão Mensal: Os valores variam ao longo dos meses, com um pico significativo em <strong>agosto e setembro de 2020</strong>, atingindo mais de <strong>R$ 1,9 milhão</strong> e <strong>R$ 2,4 milhões</strong>, respectivamente.</p>
-            <p>Fornecedores: Os principais fornecedores incluem <strong>SENAI</strong>, que tem o <strong>maior</strong> valor provisionado (R$ 227 milhões), seguido pela <strong>Fundação Instituto de Administração</strong> e outros. Há valores pendentes de pagamento para diversos fornecedores.</p>
-            <p>Pagamentos Realizados: Os pagamentos mensais variam, sendo <strong>janeiro e fevereiro</strong> marcados por quantidades expressivas de transações, com valores que chegam a <strong>R$ 8,7 milhões em um único mês</strong>.</p>
+            <p>Provisão Mensal: O mês e o ano com maior valor de documento é <strong>{primeira_linha_provisao1}{primeira_linha_provisao2}</strong>, sendo de <strong>{valor_total_provisao_formatado}</strong> .</p>
+            <p>Fornecedores: Os principais fornecedores incluem <strong>{primeira_linha_fornecedores}</strong>, que tem o <strong>maior</strong> valor provisionado (<strong>{valor_total_fornecedores_formatado}</strong>), seguido pela <strong>{segunda_linha_fornecedores}</strong> e outros. Há valores pendentes de pagamento para diversos fornecedores.</p>
+            <p>Pagamentos Realizados: Os pagamentos mensais variam, sendo <strong>{primeira_linha_pagamento}</strong> o mês marcado pelo valor de <strong>{valor_total_pagamento_formatado}</strong>.</p>
             <p> </p>
             
     """

@@ -73,7 +73,7 @@ def main():
 
         # Etapa 4: Enviar e-mail
         destinatario = "monicasp@sebraesp.com.br; ligianefbdn@sebraesp.com.br; contabilidade@sp.sebrae.com.br; orcamento@sp.sebrae.com.br; katiah@sebraesp.com.br; daniellap@sebraesp.com.br; marcelocp@sebraesp.com.br"
-        copiar = "e_gabrielapr@sebraesp.com.br; cesargl@sebraesp.com.br"
+        copiar = "cesargl@sebraesp.com.br; e_gabrielapr@sebraesp.com.br  "
         assunto = f"Relatório Controle Provisão Serviços - {strftime('%d/%m/%Y', gmtime())}"
         logging.info(f"Enviando e-mail para {destinatario}.")
         enviar_email(destinatario, copiar, assunto, corpo_email, caminho_anexo)
