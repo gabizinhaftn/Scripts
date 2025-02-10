@@ -2,14 +2,14 @@ USE FINANCA
 ;
 
 UPDATE dbo.MONITORAMENTO
-SET Posição = 'Pedido de fornecimento – encerrado'
-WHERE [Cod.Contrato] = 'SPB1.000306.24'
+SET Posição = '"Aditamento - Termo Aditivo assinado por mais 12 meses"'
+WHERE [Cod.Contrato] = 'SPA1.000987.21'
 ;
 
 UPDATE dbo.Posicao
-SET Posição = 'Pedido de fornecimento – encerrado'
-WHERE [Cod.Contrato] = 'SPB1.000306.24'
+SET Posição = '"Aditamento - Termo Aditivo assinado por mais 12 meses"'
+WHERE [Cod.Contrato] = 'SPA1.000987.21'
 
 
 /*INSERT INTO Posicao
-VALUES ('SPB1.000306.24', '', 'Pedido de fornecimento – encerrado')*/
+VALUES ('SPA1.000987.21', '', '"Aditamento - Termo Aditivo assinado por mais 12 meses"')*/
