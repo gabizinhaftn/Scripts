@@ -141,7 +141,7 @@ def gerar_corpo_email(dados):
         provisao_resumo = {}
         for detalhe in resumo["detalhe"]:
             ano = detalhe.get("ANO", 0)
-            mes = detalhe.get("MES", 0)
+            mes = detalhe.get("MÊS", 0)
             valor_documento_total = detalhe.get("VALOR DOCUMENTO", 0)
             quantidade_de_movimento = detalhe.get("QUANTIDADE DE MOVIMENTO", 0)
 
