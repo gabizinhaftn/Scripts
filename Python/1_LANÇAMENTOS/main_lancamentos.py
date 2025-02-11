@@ -1,8 +1,8 @@
 import sqlalchemy
 import os
 import pandas as pd
-from query_robo import queries
-from enviar_email_robo2214 import gerar_corpo_email, enviar_email
+from query_lancamentos_abertos import queries 
+from enviaremail_lancamentos import gerar_corpo_email, enviar_email
 from time import gmtime, strftime
 import logging
 
@@ -14,7 +14,8 @@ def consulta_sql():
     dbname = "HubDados"
     engine = sqlalchemy.create_engine(
         f'mssql+pyodbc://@{servername}/{dbname}?trusted_connection=yes&driver=ODBC+Driver+17+for+SQL+Server'
-    ) 
+    )
+
     resultados = {}
     dados_para_email = []
 
@@ -29,10 +30,11 @@ def consulta_sql():
 
                 # Resumo para o e-mail
                 resumo = {
-                    "total": len(resultado),
-                    "valor": resultado.get("VALORBRUTO", pd.Series()).sum(),
-                    "detalhe": resultado.to_dict(orient="records")[:1000],  # Limitar os detalhes para e-mail
-                    "data": strftime("%d/%m/%Y", gmtime()) 
+                    "nome_da_tabela": nome_query,
+                    "quantidade": len(resultado),
+                    "valor_total": resultado.get("VALOR ORIGINAL", pd.Series()).sum(),
+                    "detalhes": resultado.to_dict(orient="records")[:50],  # Limitar os detalhes para e-mail
+                    "data": strftime("%d/%m/%Y", gmtime())
                 }
                 dados_para_email.append(resumo)
     except Exception as e:
@@ -43,7 +45,7 @@ def consulta_sql():
 
 def salvar_arquivo_excel(resultados):
     data = strftime('%d-%m-%Y', gmtime())
-    arquivo_excel = os.path.join(os.getcwd(), "provisao_" + data + ".xlsx")
+    arquivo_excel = os.path.join(os.getcwd(), "lancamentos_abertos_" + data + ".xlsx")
 
     try:
         with pd.ExcelWriter(arquivo_excel, engine='xlsxwriter') as writer:
@@ -66,15 +68,15 @@ def main():
         # Etapa 2: Gerar corpo do e-mail
         logging.info("Gerando corpo do e-mail.")
         corpo_email = gerar_corpo_email(dados)
- 
-        # Etapa 3: Salvar resultados no Excel 
+
+        # Etapa 3: Salvar resultados no Excel
         logging.info("Salvando resultados em arquivo Excel.")
         caminho_anexo = salvar_arquivo_excel(resultados)
 
         # Etapa 4: Enviar e-mail
-        destinatario = "e_gabrielapr@sebraesp.com.br"
-        copiar = "e_gabrielapr@sebraesp.com.br  "
-        assunto = f"Relatório Controle Provisão Serviços - {strftime('%d/%m/%Y', gmtime())}"
+        destinatario = "SP-ContasaReceber@sp.sebrae.com.br"
+        copiar = "cesargl@sebraesp.com.br; douglasc@sebraesp.com.br; marcelocp@sebraesp.com.br; contabilidade@sp.sebrae.com.br; orcamento@sp.sebrae.com.br"
+        assunto = f"Posição sobre lançamentos em aberto - {strftime('%d/%m/%Y', gmtime())}"
         logging.info(f"Enviando e-mail para {destinatario}.")
         enviar_email(destinatario, copiar, assunto, corpo_email, caminho_anexo)
 
@@ -84,4 +86,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
