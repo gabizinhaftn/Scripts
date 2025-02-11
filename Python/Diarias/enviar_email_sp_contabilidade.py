@@ -6,7 +6,7 @@ from time import gmtime, strftime
 
 
 def gerar_corpo_email(dados):
-    primeira_linha_provisao1 = dados[0]['detalhe'][0].get("MES", "Desconhecido")
+    primeira_linha_provisao1 = dados[0]['detalhe'][0].get("MÊS", "Desconhecido")
     primeira_linha_provisao2 = dados[0]['detalhe'][0].get("ANO", "Desconhecido")
     primeira_linha_fornecedores = dados[1]['detalhe'][0].get("RAZÃO SOCIAL", "Desconhecido")
     segunda_linha_fornecedores = dados[1]['detalhe'][1].get("RAZÃO SOCIAL", "Desconhecido")
