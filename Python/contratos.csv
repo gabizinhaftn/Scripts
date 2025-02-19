@@ -1,7 +1,7 @@
-CODUSUARIO;CODTMV;IDMOV;EMAIL;DATACRIACAO;CONTRATO B2B;;;Prezado usuario X, foi gerado um movimento 2.2.14, no dia Y, de numero Z. Poderia informar qual o cÛdigo do contrato B2B vinculado (neste formato: SPA0.001683.24)
-anabrs;2.2.14;5169371;anabrs@sebraesp.com.br;07/02/2025;SJC0.001483.24 (FundaÁ„o Cultural Cassiano Ricardo);;;
+CODUSUARIO;CODTMV;IDMOV;EMAIL;DATACRIACAO;CONTRATO B2B;;;
+anabrs;2.2.14;5169371;anabrs@sebraesp.com.br;07/02/2025;SJC0.001483.24 (Funda√ß√£o Cultural Cassiano Ricardo);;;
 marjorieak;2.2.14;5151183;marjorieak@sebraesp.com.br;14/01/2025;ARA0.000009.25;;;
-anabrs;2.2.14;5173188;anabrs@sebraesp.com.br;13/02/2025;SJC0.001251.24 - CONTRATO B2B - MUNICÕPIO DE S√O SEBASTI√O).;;;
+anabrs;2.2.14;5173188;anabrs@sebraesp.com.br;13/02/2025;SJC0.001251.24 - CONTRATO B2B - MUNIC√çPIO DE S√ÉO SEBASTI√ÉO).;;;
 patriciatd;2.2.14;5165149;patriciatd@sebraesp.com.br;03/02/2025;;;;
 neusap;2.2.14;5173563;neusap@sebraesp.com.br;13/02/2025;;;;
 euridesra;2.2.14;5162625;euridesra@sebraesp.com.br;28/01/2025;CONTRATO CADASTRADO - JUN0.000078.25;;;
@@ -24,7 +24,7 @@ deboraol;2.2.14;5150779;deboraol@sebraesp.com.br;14/01/2025;Contrato Cancelado;;
 fernandacp;2.2.14;5166985;fernandacp@sebraesp.com.br;05/02/2025;;;;
 anabrs;2.2.14;5172653;anabrs@sebraesp.com.br;12/02/2025;SJC0.001434.24 (PREFEITURA DE CARAGUATATUBA);;;
 fabioarc;2.2.14;5145893;fabioarc@sebraesp.com.br;13/01/2025;SCA0.000044.25;;;
-anac;2.2.14;5172474;anac@sebraesp.com.br;12/02/2025;BRU0.000105.25 (ainda n„o foi cadastrado);;;
+anac;2.2.14;5172474;anac@sebraesp.com.br;12/02/2025;BRU0.000105.25 (ainda n√£o foi cadastrado);;;
 anabrs;2.2.14;5170804;anabrs@sebraesp.com.br;10/02/2025;;;;
 mararb;2.2.14;5159163;mararb@sebraesp.com.br;23/01/2025;;;;
 anabrs;2.2.14;5165679;anabrs@sebraesp.com.br;04/02/2025;;;;
