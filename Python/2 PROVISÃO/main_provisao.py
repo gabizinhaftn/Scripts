@@ -1,7 +1,7 @@
 import sqlalchemy
 import os
 import pandas as pd
-from query_sp_contabilidade import queries 
+from query_provisao import queries 
 from enviaremail_provisao import gerar_corpo_email, enviar_email
 from time import gmtime, strftime
 import logging
