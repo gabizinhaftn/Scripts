@@ -154,11 +154,12 @@ def gerar_corpo_email(dados):
             provisao_resumo[chave]['valor_total'] += valor_documento_total 
 
         for (ano, mes), valores in provisao_resumo.items():
+            valor_formatado = f"R$ {valores['valor_total']:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
             corpo += f"""
                  <tr>
                     <td>{ano}</td>
                     <td>{mes}</td>
-                    <td>R$ {valores['valor_total']:.2f}</td>
+                    <td>{valor_formatado}</td>
                     <td>{valores['quantidade']}</td>
                 </tr>
                 """
