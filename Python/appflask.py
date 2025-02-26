@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, render_template_string, request, jsonify, url_for
 import sqlite3
 
 app = Flask(__name__)
@@ -127,6 +127,72 @@ def listar_contratos():
     contratos_lista = [{"id": c[0], "cod_contrato": c[1]} for c in contratos]
     return jsonify(contratos_lista)
 
+# Nova rota para exibir contratos em HTML com links
+@app.route('/contratos_html', methods=['GET'])
+def listar_contratos_html():
+    contratos = obter_contratos()
+    return render_template_string('''
+        <!DOCTYPE html>
+        <html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Lista de Contratos</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                    background-color: #f4f4f9;
+                }
+                .contracts-container {
+                    background-color: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    width: 100%;
+                    max-width: 600px;
+                    text-align: center;
+                }
+                h1 {
+                    font-size: 24px;
+                    margin-bottom: 20px;
+                }
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+                li {
+                    margin-bottom: 10px;
+                }
+                a {
+                    text-decoration: none;
+                    color: #4CAF50;
+                    font-weight: bold;
+                }
+                a:hover {
+                    color: #45a049;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="contracts-container">
+                <h1>Lista de Contratos</h1>
+                <ul>
+                    {% for contrato in contratos %}
+                        <li><a href="{{ url_for('listar_contratos') }}">{{ contrato.cod_contrato }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </body>
+        </html>
+    ''', contratos=contratos)
+
 if __name__ == '__main__':
     init_db()  # Cria o banco de dados e a tabela se não existirem
     app.run(debug=True)
+
+    # http://ufcsebrae.pythonanywhere.com/
