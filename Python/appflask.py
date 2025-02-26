@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # Função para conectar ao banco de dados SQLite e criar a tabela
 def init_db():
-    with sqlite3.connect('contratos.db') as conn:
+    with sqlite3.connect('contratos_2214.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS contratos (
@@ -17,7 +17,7 @@ def init_db():
 
 # Função para inserir um novo contrato no banco de dados
 def inserir_contrato(cod_contrato):
-    with sqlite3.connect('contratos.db') as conn:
+    with sqlite3.connect('contratos_2214.db') as conn:
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO contratos (cod_contrato)
@@ -27,7 +27,7 @@ def inserir_contrato(cod_contrato):
 
 # Função para obter todos os contratos do banco de dados
 def obter_contratos():
-    with sqlite3.connect('contratos.db') as conn:
+    with sqlite3.connect('contratos_2214.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM contratos')
         return cursor.fetchall()
